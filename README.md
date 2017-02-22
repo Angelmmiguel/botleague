@@ -1,0 +1,2 @@
+# halite
+Our Bot league
