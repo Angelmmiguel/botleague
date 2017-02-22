@@ -1,0 +1,8 @@
+# General
+**/*.iml
+**/*.log
+**/*.hlt
+**/halite
+
+# Java
+**/*.class
