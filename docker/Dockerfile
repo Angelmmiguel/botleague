@@ -16,7 +16,7 @@ RUN cd ~ && wget https://halite.io/downloads/starterpackages/Halite-Java-Starter
 RUN cd ~ && sh -c "$(curl -fsSL https://raw.githubusercontent.com/HaliteChallenge/Halite/master/environment/install.sh)"
 
 # Clean
-RUN apt-get remove --pure build-essential && apt-get clean && \
+RUN apt-get remove --purge -y build-essential && apt-get -y autoremove && apt-get clean && \
     rm -rf /var/lib/apt /var/cache/apt/archives/*
 
 # Add the entrypoint
