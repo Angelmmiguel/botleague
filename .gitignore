@@ -6,3 +6,6 @@
 
 # Java
 **/*.class
+
+# Result
+result/*.hlt

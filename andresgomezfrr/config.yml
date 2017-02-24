@@ -1,0 +1,4 @@
+lang: java
+build:
+  - javac AndresBot.java
+run: java AndresBot
