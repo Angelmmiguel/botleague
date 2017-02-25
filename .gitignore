@@ -9,3 +9,6 @@
 
 # Result
 result/*.hlt
+
+# Mac
+.DS_Store

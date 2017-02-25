@@ -7,12 +7,11 @@ require 'terminal-table'
 require 'fileutils'
 require 'yaml'
 
-EXCLUDE_FOLDERS = %w(. .. .git docker results)
 AVAILABLE_LANGUAGES = %w(Java Ruby PHP JS)
 
 def current_players
-  Dir.entries('./').select do |entry|
-    File.directory?(File.join('./', entry)) && !EXCLUDE_FOLDERS.include?(entry)
+  Dir.entries('./bots').select do |entry|
+    File.directory?(File.join('./bots', entry)) && File.exists?(File.join('./bots', entry, 'config.yml'))
   end
 end
 
@@ -66,10 +65,10 @@ progressCMD = TTY::Command.new(printer: :progress)
 # Base folders
 battleFolder = '/battle'
 baseFolder = '/arena'
-resultFolder = '/arena/results'
+replaysFolder = '/arena/replays'
 
 Dir.mkdir(battleFolder) unless File.exists?(battleFolder)
-Dir.mkdir(resultFolder) unless File.exists?(resultFolder)
+Dir.mkdir(replaysFolder) unless File.exists?(replaysFolder)
 
 # Show main message
 puts 'Welcome to the Bot League!'
@@ -89,7 +88,7 @@ while true
     lang = lang.downcase
 
     puts 'Creating your bot...'
-    userFolder =  "#{baseFolder}/#{name}"
+    userFolder =  "#{baseFolder}/bots/#{name}"
     Dir.mkdir userFolder
     FileUtils.cp Dir.glob("/root/Halite-#{formatLang(lang)}-Starter-Package/MyBot.#{extensionByLang(lang)}"), userFolder
     FileUtils.mv "#{userFolder}/MyBot.#{extensionByLang(lang)}", "#{userFolder}/#{name}.#{extensionByLang(lang)}"
@@ -107,7 +106,7 @@ while true
   else
     rows = [['Player', 'Language', 'Require building'], :separator]
     players = prompt.multi_select('Select players', current_players, echo: false).map do |player|
-      config = YAML.load_file("#{player}/config.yml")
+      config = YAML.load_file("bots/#{player}/config.yml")
       build = config['build'] || []
       lang = formatLang(config['lang'])
 
@@ -131,7 +130,7 @@ while true
         puts 'Building player'
         tmp = "/tmp/#{player[:name]}"
         Dir.mkdir tmp
-        FileUtils.cp_r Dir.glob("#{player[:name]}/*.*"), tmp
+        FileUtils.cp_r Dir.glob("bots/#{player[:name]}/*.*"), tmp
 
         # Copy all elements from Getting started
         FileUtils.cp_r Dir.glob("/root/Halite-#{player[:lang]}-Starter-Package/*.*"), tmp
@@ -143,7 +142,7 @@ while true
         puts 'Finish building'
       else
         FileUtils.cp_r Dir.glob("/root/Halite-#{player[:lang]}-Starter-Package/*.*"), battleFolder
-        FileUtils.cp_r Dir.glob("#{player[:name]}/*.*"), battleFolder
+        FileUtils.cp_r Dir.glob("bots/#{player[:name]}/*.*"), battleFolder
       end
     end
 
@@ -163,8 +162,8 @@ while true
 
     puts Terminal::Table.new rows: rows
 
-    FileUtils.cp_r Dir.glob("#{battleFolder}/*.hlt"), resultFolder
-    puts "Replays are available in /results folder"
+    FileUtils.cp_r Dir.glob("#{battleFolder}/*.hlt"), replaysFolder
+    puts "Replays are available in /replays folder"
   end
 
   puts "\n"

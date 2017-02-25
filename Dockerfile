@@ -32,7 +32,7 @@ RUN apt-get remove --purge -y build-essential && apt-get -y autoremove && apt-ge
     rm -rf /var/lib/apt /var/cache/apt/archives/*
 
 # Main script depedencies
-RUN gem install tty-prompt tty-command terminal-table
+RUN gem install tty-prompt tty-command terminal-table chunky_png
 
 # Add the entrypoint
 COPY docker/entrypoint.sh /
