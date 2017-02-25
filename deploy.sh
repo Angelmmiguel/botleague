@@ -22,7 +22,7 @@ git config user.email "angel@laux.es"
 # Checkout
 git clone $REPO out
 cd out
-git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+git checkout -b $TARGET_BRANCH origin/$TARGET_BRANCH
 cd ..
 
 # Copy results
