@@ -31,15 +31,6 @@ cp ./results/*.png out/images
 cp ./results/game-*.md out
 cd out
 
-# If there are no changes (e.g. this is a README update) then just bail.
-# if [ -z `git diff --exit-code` ]; then
-#     echo "No changes to the spec on this push; exiting."
-#     exit 0
-# fi
-
-# Debug
-git status
-
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
 git add .
@@ -50,10 +41,10 @@ ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
 ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
 ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
 ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
-openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in deploy/deploy_key.enc -out deploy/deploy_key -d
-chmod 600 deploy/deploy_key
+openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in ../deploy/deploy_key.enc -out ../deploy/deploy_key -d
+chmod 600 ../deploy/deploy_key
 eval `ssh-agent -s`
-ssh-add deploy/deploy_key
+ssh-add ../deploy/deploy_key
 
 # Now that we're all set up, we can push.
 git push $SSH_REPO $TARGET_BRANCH
