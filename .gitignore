@@ -12,3 +12,6 @@ result/*.hlt
 
 # Mac
 .DS_Store
+
+# Deploy
+deploy/deploy_key

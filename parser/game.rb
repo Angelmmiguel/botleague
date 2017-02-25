@@ -1,7 +1,7 @@
 require 'chunky_png'
 # Load and extract the information of the game
 class Game
-  attr_accessor :players, :frames, :width, :height
+  attr_accessor :name, :players, :frames, :width, :height
 
   COLORS = %w(F50E4E AE78C9 164293)
 
@@ -15,6 +15,7 @@ class Game
     end
 
     @frames = json['frames'].map { |f| Frame.new(f) }
+    @name = "game-#{Time.now.to_i}"
   end
 
   def print_frame(num)
@@ -41,7 +42,7 @@ class Game
       end
     end
 
-    png.save('test.png', :interlace => true)
+    png.save("results/images/#{name}.png", :interlace => true)
   end
 
   def print_last_frame

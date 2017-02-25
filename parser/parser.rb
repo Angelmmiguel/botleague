@@ -15,7 +15,14 @@ end
 
 json = JSON.parse(File.read(ARGV.first))
 game = Game.new(json)
-
 game.print_last_frame
 
-puts game
+mdFile = ["# Botleague game"]
+players = game.players[1..(game.players.size - 1)]
+mdFile << "Players: #{players.map(&:name).join(' vs ')}"
+mdFile << '## Results'
+mdFile << "![Map at the last frame](./images/#{game.name}.png)"
+
+File.open("./results/#{game.name}.md", 'w') { |f| f.write(mdFile.join("\n")) }
+
+puts 'Finish parsing'

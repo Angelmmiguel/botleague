@@ -1,0 +1,14 @@
+sudo: required
+language: generic
+services:
+  - docker
+env:
+  global:
+    - ENCRYPTION_LABEL: "bedcd13b0faf"
+before_install:
+  - docker build -t angelrb/botleague .
+script:
+  - docker run -it -v $(pwd):/arena angelrb/botleague /main.rb Angelmmiguel andresgomezfrr
+  - ./parser/parser.rb replays/$(ls -A1 ./replays)
+after_success:
+  - ./deploy.sh
