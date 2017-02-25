@@ -10,4 +10,4 @@ before_install:
 script:
   - docker run -it -v $(pwd):/arena angelrb/botleague /main.rb Angelmmiguel andresgomezfrr
 after_success:
-  # - ./deploy.sh
+  - ./deploy.sh

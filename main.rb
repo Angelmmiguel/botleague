@@ -117,8 +117,10 @@ def executeBattle(players, battleFolder, replaysFolder, cmd, progressCMD)
 
   puts Terminal::Table.new rows: rows
 
-  FileUtils.cp_r Dir.glob("#{battleFolder}/*.hlt"), replaysFolder
+  replay = Dir.glob("#{battleFolder}/*.hlt").first
+  FileUtils.cp replay, replaysFolder
   puts "Replays are available in /replays folder"
+  replay.split('/').last
 end
 
 # Initializations
@@ -176,10 +178,10 @@ if ARGV.length == 0
     puts "\n"
   end
 else
-  executeBattle(ARGV, battleFolder, replaysFolder, cmd, progressCMD)
+  replay = executeBattle(ARGV, battleFolder, replaysFolder, cmd, progressCMD)
 
   puts "Generating result!"
-  cmd.run("parser/parser.rb #{Dir.glob('replays/*.hlt').first}", chdir: baseFolder)
+  cmd.run("parser/parser.rb replays/#{replay}", chdir: baseFolder)
   puts "Finish"
 end
 

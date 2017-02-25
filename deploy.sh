@@ -1,8 +1,15 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
 
-SOURCE_BRANCH="$TRAVIS_BRANCH"
-TARGET_BRANCH="$TRAVIS_BRANCH"
+# TODO: This is temporal. Switch it to master!
+SOURCE_BRANCH="travis"
+TARGET_BRANCH="results"
+
+# Pull requests and commits to other branches shouldn't try to deploy, just build to verify
+if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+    echo "Skipping deploy; just doing a build."
+    exit 0
+fi
 
 # Save some useful information
 REPO=`git config remote.origin.url`
@@ -13,13 +20,22 @@ git config user.name "Travis CI"
 git config user.email "angel@laux.es"
 
 # Checkout
-git checkout $TARGET_BRANCH
+git clone $REPO out
+cd out
+git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+cd ..
+
+# Copy results
+mkdir -p out/images
+cp ./results/*.png out/images
+cp ./results/game-*.md out
+cd out
 
 # If there are no changes (e.g. this is a README update) then just bail.
-# if [ -z `git diff --exit-code` ]; then
-#     echo "No changes to the spec on this push; exiting."
-#     exit 0
-# fi
+if [ -z `git diff --exit-code` ]; then
+    echo "No changes to the spec on this push; exiting."
+    exit 0
+fi
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.

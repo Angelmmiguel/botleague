@@ -16,9 +16,9 @@ game = Game.new(json)
 game.print_last_frame
 
 mdFile = ["# Botleague game"]
-players = game.players[1..(game.players.size - 1)]
-mdFile << "Players: #{players.map(&:name).join(' vs ')}"
+mdFile << "**Players**: #{game.players.map(&:name).join(' vs ')}\n"
 mdFile << '## Results'
+mdFile << "#{game.result_table}\n"
 mdFile << "![Map at the last frame](./images/#{game.name}.png)"
 
 File.open("./results/#{game.name}.md", 'w') { |f| f.write(mdFile.join("\n")) }
