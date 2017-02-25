@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
 
-# TODO: This is temporal. Switch it to master!
-SOURCE_BRANCH="travis"
+SOURCE_BRANCH="master"
 TARGET_BRANCH="results"
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
