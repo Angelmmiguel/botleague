@@ -9,11 +9,12 @@ public class AndresBot {
 
         Networking.sendInit("AndresBot");
 
+        List<Location> enemies = new ArrayList<>();
+
         while (true) {
-            List<Move> moves = new ArrayList<Move>();
+            List<Move> moves = new ArrayList<>();
 
             Networking.updateFrame(gameMap);
-            Location otherPlayer = null;
 
             for (int y = 0; y < gameMap.height; y++) {
                 for (int x = 0; x < gameMap.width; x++) {
@@ -69,22 +70,32 @@ public class AndresBot {
                                 moves.add(new Move(location, betterOpts.get().getKey()));
                             }
                         } else {
-                            if (otherPlayer != null) {
-                                if (otherPlayer.getX() > location.getX()) {
-                                    moves.add(new Move(location, Direction.NORTH));
-                                } else if (otherPlayer.getX() < location.getX()) {
-                                    moves.add(new Move(location, Direction.SOUTH));
-                                } else if (otherPlayer.getY() > location.getY()) {
-                                    moves.add(new Move(location, Direction.EAST));
-                                } else if (otherPlayer.getY() < location.getY()) {
-                                    moves.add(new Move(location, Direction.WEST));
-                                }
-                            } else {
+                            if (enemies.isEmpty()) {
                                 moves.add(new Move(location, Direction.STILL));
+                            } else {
+                                Integer r = new Random().nextInt(enemies.size());
+                                enemies.get(r);
+                                Location newLoc = gameMap.getLocation(location.getX(), location.getY());
+                                if (newLoc.getSite().owner == myID) {
+                                    enemies.remove(r);
+                                } else {
+                                    Double angle = gameMap.getAngle(location, newLoc);
+                                    if (angle <= 45) {
+                                        moves.add(new Move(location, Direction.EAST));
+                                    } else if (angle > 45 && angle <= 135) {
+                                        moves.add(new Move(location, Direction.NORTH));
+                                    } else if (angle > 135 && angle <= 225) {
+                                        moves.add(new Move(location, Direction.WEST));
+                                    } else if (angle > 225 && angle <= 315) {
+                                        moves.add(new Move(location, Direction.SOUTH));
+                                    } else {
+                                        moves.add(new Move(location, Direction.EAST));
+                                    }
+                                }
                             }
                         }
                     } else {
-                        otherPlayer = location;
+                        enemies.add(location);
                     }
                 }
             }
