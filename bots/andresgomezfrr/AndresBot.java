@@ -73,14 +73,13 @@ public class AndresBot {
                             if (enemies.isEmpty()) {
                                 moves.add(new Move(location, Direction.STILL));
                             } else {
-                                Integer r = new Random().nextInt(enemies.size());
-                                enemies.get(r);
-                                Location newLoc = gameMap.getLocation(location.getX(), location.getY());
+                                Location bad = enemies.get(0);
+                                Location newLoc = gameMap.getLocation(bad.getX(), bad.getY());
                                 if (newLoc.getSite().owner == myID) {
-                                    enemies.remove(r);
+                                    enemies.remove(0);
                                 } else {
                                     Double angle = gameMap.getAngle(location, newLoc);
-                                    if (angle <= 45) {
+                                    if (angle <= 45 || angle >= 315) {
                                         moves.add(new Move(location, Direction.EAST));
                                     } else if (angle > 45 && angle <= 135) {
                                         moves.add(new Move(location, Direction.NORTH));
@@ -88,8 +87,6 @@ public class AndresBot {
                                         moves.add(new Move(location, Direction.WEST));
                                     } else if (angle > 225 && angle <= 315) {
                                         moves.add(new Move(location, Direction.SOUTH));
-                                    } else {
-                                        moves.add(new Move(location, Direction.EAST));
                                     }
                                 }
                             }
