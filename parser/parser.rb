@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 require 'json'
-require 'pry'
-require 'pry-nav'
 
 require_relative './game.rb'
 require_relative './square.rb'
