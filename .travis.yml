@@ -9,6 +9,5 @@ before_install:
   - docker pull angelrb/botleague
 script:
   - docker run -it -v $(pwd):/arena angelrb/botleague /main.rb Angelmmiguel andresgomezfrr
-  - docker run -it -v $(pwd):/arena angelrb/botleague /arena/parser/parser.rb replays/$(ls -A1 ./replays)
 after_success:
   - ./deploy.sh
