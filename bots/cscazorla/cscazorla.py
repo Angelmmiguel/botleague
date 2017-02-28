@@ -3,7 +3,7 @@ from hlt import NORTH, EAST, SOUTH, WEST, STILL, Move, Square
 import random
 
 myID, game_map = hlt.get_init()
-hlt.send_init("@csanchez")
+hlt.send_init("cscazorla")
 
 def assign_move(square):
     for direction, neighbor in enumerate(game_map.neighbors(square)):

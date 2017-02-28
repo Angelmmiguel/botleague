@@ -7,7 +7,7 @@ require 'terminal-table'
 require 'fileutils'
 require 'yaml'
 
-AVAILABLE_LANGUAGES = %w(Java Ruby PHP JS)
+AVAILABLE_LANGUAGES = %w(Java Ruby PHP JS Python)
 
 def current_players
   Dir.entries('./bots').select do |entry|
@@ -30,6 +30,8 @@ def extensionByLang(lang)
   case lang.downcase
   when 'ruby'
     'rb'
+  when 'python'
+    'py'
   else
     lang
   end
@@ -45,6 +47,8 @@ def defaultRunCommandByLang(name, lang)
     "nodejs #{name}"
   when 'php'
     "php #{name}.php"
+  when 'python'
+    "python3 #{name}.py"
   end
 end
 

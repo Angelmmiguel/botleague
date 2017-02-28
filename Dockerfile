@@ -10,7 +10,7 @@ RUN curl https://www.dotdeb.org/dotdeb.gpg | sudo apt-key add - && \
 
 # Install packages
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates-java/jessie-backports \
-    openjdk-8-jdk-headless openjdk-8-jdk ruby build-essential unzip wget vim php7.0
+    openjdk-8-jdk-headless openjdk-8-jdk ruby build-essential unzip wget vim php7.0 python3
 
 # Install Node
 RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && apt-get install -y nodejs
@@ -20,9 +20,10 @@ RUN cd ~ && wget https://halite.io/downloads/starterpackages/Halite-Java-Starter
     wget https://halite.io/downloads/starterpackages/Halite-PHP-Starter-Package.zip && \
     wget https://halite.io/downloads/starterpackages/Halite-Ruby-Starter-Package.zip && \
     wget https://halite.io/downloads/starterpackages/Halite-JavaScript-Starter-Package.zip && \
+    wget https://halite.io/downloads/starterpackages/Halite-Python-Starter-Package.zip && \
     unzip Halite-Java-Starter-Package.zip && unzip Halite-Ruby-Starter-Package.zip && \
     unzip Halite-PHP-Starter-Package.zip && unzip Halite-JavaScript-Starter-Package.zip && \
-    rm *.zip
+    unzip Halite-Python-Starter-Package.zip && rm *.zip
 
 # Install halite
 RUN cd ~ && sh -c "$(curl -fsSL https://raw.githubusercontent.com/HaliteChallenge/Halite/master/environment/install.sh)"
