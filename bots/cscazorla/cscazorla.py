@@ -10,10 +10,11 @@ def assign_move(square):
         if neighbor.owner != myID and neighbor.strength < square.strength:
             return Move(square, direction)
 
-    if square.strength < 5 * square.production:
-        return Move(square, STILL)
-    else:
-        return Move(square, random.choice((NORTH, WEST)))
+    return Move(square, STILL)
+    # if square.strength < 5 * square.production:
+    #     return Move(square, STILL)
+    # else:
+    #     return Move(square, random.choice((NORTH, WEST)))
 
 while True:
     game_map.get_frame()
