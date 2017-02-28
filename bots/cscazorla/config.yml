@@ -1,2 +1,2 @@
-lang: python
-run: python cscazorla.py
+lang: python3
+run: python3 cscazorla.py
